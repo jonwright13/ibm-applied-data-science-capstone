@@ -103,7 +103,8 @@ def get_pie_chart(entered_site):
     ]
 )
 def get_scatter_chart(entered_site, payload):
-    filtered_df = spacex_df
+    # Note, payload value returns a 2 index list showing min and max payload
+    filtered_df = spacex_df.loc[(spacex_df['Payload Mass (kg)'] >= payload[0]) & (spacex_df['Payload Mass (kg)'] <= payload[1])]
     if entered_site == 'ALL':
         fig = px.scatter(
             filtered_df, 
@@ -115,7 +116,7 @@ def get_scatter_chart(entered_site, payload):
         return fig
     else:
         # return the outcomes piechart for a selected site
-        filtered_df = filtered_df.loc[filtered_df['Launch Site'] == entered_site]
+        filtered_df = filtered_df.loc[(filtered_df['Launch Site'] == entered_site)]
         fig = px.scatter(
             filtered_df, 
             x='Payload Mass (kg)', 
